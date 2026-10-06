@@ -1,0 +1,12 @@
+.sidebar_area {
+    padding: 10px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.features_options {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
