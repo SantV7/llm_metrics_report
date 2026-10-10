@@ -12,6 +12,7 @@ export const createAuthToken = (userId: string): string =>
 export const verifyAuthToken = (token: string): string | null => {
   try {
     const payload = jwt.verify(token, getJwtSecret());
+    
     return typeof payload === 'object' && typeof payload.sub === 'string'
       ? payload.sub
       : null;
