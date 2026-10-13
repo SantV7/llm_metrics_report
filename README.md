@@ -20,20 +20,24 @@ backend/
 │   │   ├── User/
 │   │   │   ├── JWT/
 │   │   │   ├── loginController.ts
+│   │   │   ├── registerController.ts
 │   │   │   └── passwordAuth.ts
 │   ├── database/
 │   │   └── mongoDB.ts
 │   ├── middlewares/
 │   │   └── UserAuth/
 │   │       ├── loginAuth.ts
+│   │       ├── registerAuth.ts
 │   │       └── tokenAuth.ts
 │   ├── routes/
 │   │   └── User/
-│   │       └── login.routes.ts
+│   │       ├── login.routes.ts
+│   │       └── register.routes.ts
 │   ├── app.ts
 │   └── server.ts
 ├── tests/
 │   ├── loginAuth.test.ts
+│   ├── register.test.ts
 │   └── loginController.test.ts
 ├── jest.config.cjs
 ├── package.json
@@ -147,9 +151,32 @@ Também aceita `username` no lugar de `email`:
 - O controller consulta o usuário no MongoDB e verifica a senha com hash.
 - O JWT é gerado com `JWT_SECRET` e inclui o ID do usuário como `subject`.
 
+## Fluxo de registro
+
+### Endpoint
+
+```http
+POST /user/register
+```
+
+### Payload esperado
+
+```json
+{
+  "username": "joao",
+  "email": "joao@email.com",
+  "password": "senha123",
+  "birthDate": "1995-06-15",
+  "gender": "masculino"
+}
+```
+
+`birthDate` deve estar no formato `YYYY-MM-DD` e não pode ser uma data futura.
+`gender` é um campo de texto obrigatório. O registro retorna um JWT com status
+`201`; username ou email já cadastrados retornam status `409`.
+
 ## Próximos passos sugeridos
 
 - criar testes para rotas protegidas com `tokenAuth`
-- incluir rotas de registro de usuário
 - adicionar testes de integração com Supertest
 - melhorar a documentação da API com Swagger

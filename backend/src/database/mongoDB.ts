@@ -1,10 +1,11 @@
-import { MongoClient, ObjectId, type Collection } from 'mongodb';
+import { MongoClient, type Collection } from 'mongodb';
 
 export interface UserDocument {
-  _id: ObjectId;
   username: string;
   email: string;
   passwordHash: string;
+  birthDate: string;
+  gender: string;
 }
 
 let mongoClient: MongoClient | undefined;
