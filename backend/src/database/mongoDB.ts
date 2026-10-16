@@ -8,15 +8,29 @@ export interface UserDocument {
   gender: string;
 }
 
+export interface IssueDocument {
+  title: string;
+  description: string;
+  status: 'open' | 'in_progress' | 'resolved';
+  severity: 'low' | 'mid' | 'high';
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 let mongoClient: MongoClient | undefined;
 
-export const getUsersCollection = async (): Promise<Collection<UserDocument>> => {
+const getDatabase = async () => {
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error('MONGODB_URI is not configured.');
 
   mongoClient ??= new MongoClient(uri);
   await mongoClient.connect();
   const databaseName = process.env.MONGODB_DB;
-  const database = databaseName ? mongoClient.db(databaseName) : mongoClient.db();
-  return database.collection<UserDocument>('users');
+  return databaseName ? mongoClient.db(databaseName) : mongoClient.db();
 };
+
+export const getUsersCollection = async (): Promise<Collection<UserDocument>> =>
+  (await getDatabase()).collection<UserDocument>('users');
+
+export const getIssuesCollection = async (): Promise<Collection<IssueDocument>> =>
+  (await getDatabase()).collection<IssueDocument>('issues');
