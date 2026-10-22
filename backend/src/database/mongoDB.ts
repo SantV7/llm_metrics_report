@@ -15,6 +15,7 @@ export interface IssueDocument {
   severity: 'low' | 'mid' | 'high';
   createdAt: Date;
   updatedAt: Date;
+  resolvedAt?: Date;
 }
 
 let mongoClient: MongoClient | undefined;

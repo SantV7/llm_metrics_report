@@ -145,6 +145,26 @@ Também aceita `username` no lugar de `email`:
 }
 ```
 
+## Métricas
+
+`GET /api/metrics/summary` exige o mesmo JWT no header `Authorization` que as
+rotas de issues. O resumo considera globalmente todas as issues e retorna as
+contagens por status e o tempo médio de resolução em milissegundos.
+
+```json
+{
+  "totalIssues": 8,
+  "openIssues": 3,
+  "inProgressIssues": 2,
+  "resolvedIssues": 3,
+  "averageResolutionTimeMs": 3600000
+}
+```
+
+`averageResolutionTimeMs` é `null` quando ainda não há issue resolvida com
+timestamps válidos. Novas resoluções usam `resolvedAt`; issues antigas sem esse
+campo usam `updatedAt` como aproximação.
+
 ## Observações
 
 - O middleware `loginAuth` valida o formato do corpo antes de prosseguir.

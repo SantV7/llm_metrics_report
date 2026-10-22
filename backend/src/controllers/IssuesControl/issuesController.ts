@@ -23,6 +23,7 @@ export const createIssueController: RequestHandler<Record<string, never>, unknow
     severity: input.severity ?? 'mid',
     createdAt: now,
     updatedAt: now,
+    ...(input.status === 'resolved' && { resolvedAt: now }),
   };
   const result = await (await getIssuesCollection()).insertOne(issue);
   res.status(201).json(toIssueResponse({ ...issue, _id: result.insertedId }));
@@ -53,9 +54,15 @@ export const getIssueController: RequestHandler<{ id: string }> = async (req, re
 
 export const updateIssueController: RequestHandler<{ id: string }, unknown, UpdateIssueInput> = async (req, res) => {
   const issues = await getIssuesCollection();
+  const now = new Date();
+  const update: { $set: Partial<IssueDocument>; $unset?: { resolvedAt: '' } } = {
+    $set: { ...req.body, updatedAt: now },
+  };
+  if (req.body.status === 'resolved') update.$set.resolvedAt = now;
+  if (req.body.status && req.body.status !== 'resolved') update.$unset = { resolvedAt: '' };
   const issue = await issues.findOneAndUpdate(
     { _id: getIssueId(req.params.id) },
-    { $set: { ...req.body, updatedAt: new Date() } },
+    update,
     { returnDocument: 'after' },
   );
   if (!issue) {

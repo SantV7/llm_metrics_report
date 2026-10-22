@@ -91,7 +91,9 @@ describe('issuesController', () => {
 
     expect(mockFindOneAndUpdate).toHaveBeenCalledWith(
       { _id: id },
-      expect.objectContaining({ $set: expect.objectContaining({ status: 'resolved' }) }),
+      expect.objectContaining({
+        $set: expect.objectContaining({ status: 'resolved', resolvedAt: expect.any(Date) }),
+      }),
       { returnDocument: 'after' },
     );
     expect(updateResponse.json).toHaveBeenCalledWith(expect.objectContaining({ _id: id.toString() }));
