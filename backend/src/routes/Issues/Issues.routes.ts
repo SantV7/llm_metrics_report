@@ -1,17 +1,6 @@
 import { Router } from 'express';
-import {
-  createIssueController,
-  deleteIssueController,
-  getIssueController,
-  listIssuesController,
-  updateIssueController,
-} from '../../controllers/IssuesControl/issuesController.ts';
-import {
-  issueIdAuth,
-  issueQueryAuth,
-  issueUpdateAuth,
-  issuesAuth,
-} from '../../middlewares/IssuesAuth/issuesAuth.ts';
+import { createIssueController, deleteIssueController, getIssueController, listIssuesController, updateIssueController } from '../../controllers/IssuesControl/issuesController.ts';
+import { issueIdAuth, issueQueryAuth, issueUpdateAuth, issuesAuth } from '../../middlewares/IssuesAuth/issuesAuth.ts';
 import { tokenAuth } from '../../middlewares/UserAuth/tokenAuth.ts';
 
 export const issuesRouter = Router();

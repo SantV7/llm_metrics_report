@@ -14,5 +14,5 @@ app.use('/api/issues', issuesRouter);
 app.use('/api/metrics', metricsRouter);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Hello, welcome to my llm metrics report :) running now! \n Made by Aivy');
 });
